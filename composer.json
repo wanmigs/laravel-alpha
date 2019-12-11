@@ -1,0 +1,30 @@
+{
+  "name": "wanmigs/laravel-auth",
+  "description": "Laravel Auth Preset Package",
+  "type": "package",
+  "require": {
+    "php": ">=5.3.0"
+  },
+  "license": "mit",
+  "authors": [
+    {
+      "name": "Juan Miguel Torres",
+      "email": "wanmigs@gmail.com",
+      "homepage": "https://github.com/wanmigs/laravel-auth"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Fligno\\Auth\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Fligno\\Auth\\AuthServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
