@@ -20,3 +20,5 @@ mix
 "react": "^16.2.0",
 "react-dom": "^16.2.0",
 ```
+
+`yarn install && npm run dev`
