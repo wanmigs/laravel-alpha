@@ -27,7 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerEloquentFactoriesFrom(__DIR__ . '/database/factories');
 
         $this->publishes([
-            __DIR__ . '/resources/js' => public_path('/js'),
+            __DIR__ . '/resources/js' => resource_path('/js'),
         ], 'auth');
     }
 
