@@ -3,7 +3,8 @@
   "description": "Laravel Auth Preset Package",
   "type": "package",
   "require": {
-    "php": ">=5.3.0"
+    "php": "^7.2",
+    "laravel/passport": "^8.0"
   },
   "license": "mit",
   "authors": [

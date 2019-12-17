@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -21,7 +22,7 @@ class RegisterController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'user_type' => 'admin'
+            'user_type' => 'admin',
         ]);
 
         $user->save();
