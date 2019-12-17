@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ config('app.name') }} - Login</title>
+        <title>{{ config('app.name') }} - Register</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
@@ -13,7 +13,7 @@
         <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 
         <!-- Scripts -->
-        <script src="{{asset('js/login.js')}}" defer></script>
+        <script src="{{asset('js/register.js')}}" defer></script>
 
         <style>
             html, body {

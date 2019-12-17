@@ -1,7 +1,7 @@
+import '../bootstrap'
 import React, { useRef, useState } from "react";
 import ReactDOM from "react-dom";
-
-require("./bootstrap");
+import { setToken } from '../helpers/auth';
 
 const App = () => {
   const [errors, setErrors] = useState({});
@@ -14,7 +14,10 @@ const App = () => {
     let errors = "";
 
     try {
-      await axios.post("/api/login", formData);
+      let { data } = await axios.post("/api/login", formData);
+      setToken(data.access_token);
+
+      window.location.href = '/';
     } catch (error) {
       let { data } = error.response;
       errors = data.errors;
@@ -36,16 +39,16 @@ const App = () => {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="username"
             >
-              Username
+              Email
             </label>
             <input
               name="email"
               className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
                 errors.email ? "border-red-500 mb-3" : ""
               }`}
-              id="username"
+              id="email"
               type="text"
-              placeholder="Username"
+              placeholder="Email address"
             />
             {errors.email && (
               <p className="text-red-500 text-xs italic">{errors.email[0]}</p>
@@ -65,7 +68,7 @@ const App = () => {
               }`}
               id="password"
               type="password"
-              placeholder="******************"
+              placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
             />
             {errors.password && (
               <p className="text-red-500 text-xs italic">

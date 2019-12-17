@@ -12,20 +12,18 @@ trait AuthenticatesUsers
     /**
      * Login user and create token
      *
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [boolean] remember_me
-     * @return [string] access_token
-     * @return [string] token_type
-     * @return [string] expires_at
+     * @param Request $request
+     * @return mixed
+     * @throws ValidationException
      */
     public function login(Request $request)
     {
         $this->validateLogin($request);
 
-        if (!$this->attemptLogin($request)) {
+        if (! $this->attemptLogin($request)) {
             return $this->sendFailedLoginResponse();
         }
+
         return $this->sendLoginResponse($request);
     }
 
@@ -33,10 +31,11 @@ trait AuthenticatesUsers
      * Destroy user token and logout
      *
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function logout(Request $request)
     {
+        return response()->json(['request' => $request->user()]);
         $request->user()->token()->revoke();
 
         return response()->json([
@@ -49,8 +48,6 @@ trait AuthenticatesUsers
      *
      * @param  \Illuminate\Http\Request  $request
      * @return void
-     *
-     * @throws \Illuminate\Validation\ValidationException
      */
     protected function validateLogin(Request $request)
     {
@@ -100,14 +97,16 @@ trait AuthenticatesUsers
      * Send the response after the user was authenticated.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     protected function sendLoginResponse(Request $request)
     {
-        $user = $request->user();
+//        dd(auth()->guard('web')->user());
+        $user = auth()->guard('web')->user();
 
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
+
         if ($request->remember_me) {
             $token->expires_at = Carbon::now()->addWeeks(1);
         }
@@ -126,10 +125,8 @@ trait AuthenticatesUsers
     /**
      * Get the failed login response instance.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @return void
+     * @throws ValidationException
      */
     protected function sendFailedLoginResponse()
     {

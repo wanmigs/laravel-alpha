@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      * Bootstrap the application events.
      *
      * @return void
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function boot()
     {
@@ -44,8 +45,9 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register factories.
      *
-     * @param  string  $path
+     * @param string $path
      * @return void
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function registerEloquentFactoriesFrom($path)
     {
