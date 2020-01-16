@@ -6,7 +6,7 @@ export const isLoggedIn = () => Cookie.get('oToken')
 export const logout = async (callback) => {
   setToken('')
   await axios.post('/api/logout')
-  window.location = '/login'
+  window.location = '/'
 
   callback()
 }

@@ -29,6 +29,8 @@ class RegisterController extends Controller
 
         $tokenResult = $user->createToken('Personal Access Token');
 
+        $user->sendEmailVerificationNotification();
+
         return response()->json([
             'message' => 'Successfully created user!',
             'access_token' => $tokenResult->accessToken,
