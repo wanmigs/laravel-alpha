@@ -4,6 +4,8 @@ namespace Fligno\Auth\Http\Controllers;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -28,6 +30,8 @@ class RegisterController extends Controller
         $user->save();
 
         $tokenResult = $user->createToken('Personal Access Token');
+
+        event(new Registered($user));
 
         return response()->json([
             'message' => 'Successfully created user!',
