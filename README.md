@@ -3,7 +3,5 @@ This package handles your laravel project's api authentication with optional ema
 
 # Docs
 - [Authentication](./src/docs/authentication.md)
+- [Password Reset](./src/docs/password-reset.md)
 - [Email verification](./src/docs/verification.md)
-
-# Todo
-- Password Reset
