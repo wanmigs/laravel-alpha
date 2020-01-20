@@ -63,17 +63,15 @@ class VerifyEmail extends Notification
             'hash' => sha1($notifiable->getEmailForVerification()),
         ];
 
-        $configUrl = config('frontend.verification_url');
-        $query = http_build_query($parameters);
-        $frontendUrl = $configUrl . '?' . $query;
+        if ($frontendUrl = config('frontend.verification_url')) {
+            return $frontendUrl . '?' . http_build_query($parameters);
+        }
 
-        $defaultVerificationUrl = URL::temporarySignedRoute(
+        return URL::temporarySignedRoute(
             'verification.verify',
             Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
             $parameters
         );
-
-        return $configUrl ? $frontendUrl : $defaultVerificationUrl;
     }
 
     /**

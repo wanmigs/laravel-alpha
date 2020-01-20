@@ -101,7 +101,6 @@ trait AuthenticatesUsers
      */
     protected function sendLoginResponse(Request $request)
     {
-//        dd(auth()->guard('web')->user());
         $user = auth()->guard('web')->user();
 
         $tokenResult = $user->createToken('Personal Access Token');

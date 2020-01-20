@@ -1,7 +1,7 @@
 import '../bootstrap'
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { isLoggedIn, logout } from '../helpers/auth'
+import { isLoggedIn, logout, setToken } from '../helpers/auth'
 
 const App = () => {
   const [message, setMessage] = useState('');

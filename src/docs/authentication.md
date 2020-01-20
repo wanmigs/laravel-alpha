@@ -4,7 +4,11 @@ This package handles your laravel project's api authentication. The following ro
 POST /api/register
 POST /api/login
 POST /api/logout
-GET /api/me
+POST /api/password/email
+POST /api/password/reset
+GET  /api/email/resend
+GET  /api/email/verify/{id}/{hash}
+GET  /api/me
 ```
 
 # Installation
@@ -23,15 +27,19 @@ This will publish the ReactJS components to your `/resources/js` folder. We have
 
 If you have a separate frontend, you can copy the published files into your frontend app.
 
-#### 3. Add publish file to `webpack.mix.js`
+Aside from the ReactJS components, this command will also publish the `config/frontend.php` file and the `tests` files.
+
+#### 3. Add the published files to `webpack.mix.js`
 
 ```js
-mix
-  .js("resources/js/app.js", "public/js")
-  .react("resources/js/auth/login.js", "public/js") // Add this line of code 
-  .react("resources/js/auth/register.js", "public/js") // Add this line of code 
-  .react("resources/js/home.js", "public/js") // Add this line of code 
-  .sass("resources/sass/app.scss", "public/css");
+mix.sass('resources/sass/app.scss', 'public/css')
+  .react("resources/js/auth/login.js", "public/js") // Add this line of code
+  .react("resources/js/auth/register.js", "public/js") // Add this line of code
+  .react("resources/js/auth/verification.js", "public/js") // Add this line of code
+  .react("resources/js/auth/forget-password.js", "public/js") // Add this line of code
+  .react("resources/js/auth/reset-password.js", "public/js") // Add this line of code
+  .react("resources/js/home.js", "public/js"); // Add this line of code
+  
 ```
 
 #### 4. Add `package.json` dependecies
@@ -57,20 +65,27 @@ php artisan migrate
 php artisan passport:install
 ```
 
-#### 7. Import and use the `HasApiToken` trait to your `User` model
+#### 7. Prepare your `User` model
+Your user model should have the following:
+- Implement the `Illuminate\Contracts\Auth\MustVerifyEmail` contract
+- Use the `Laravel\Passport\HasApiTokens` trait
+- Use the `Fligno\Auth\Traits\EmailNotifications` trait
 ```php
 <?php
 
 namespace App;
 
+use Fligno\Auth\Traits\EmailNotifications;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use Notifiable;
+    use EmailNotifications;
 }
 ```
 
@@ -110,12 +125,8 @@ public function boot()
 ```
 
 
-#### 10. Replace the `/` with this:
+#### 10. Replace the `/` route with this:
 ```php
 Route::view('/', 'Auth::welcome');
 ```
 This is an optional step. This is only to demonstrate a homepage with the authentication links.
-
-# Todo
-- Password Reset
-- Email verification
