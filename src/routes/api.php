@@ -30,6 +30,7 @@ Route::post('resource/{model}', 'ResourceController@store')->name('resource.stor
 Route::patch('resource/{model}/{id}', 'ResourceController@update')->name('resource.update');
 Route::get('resource/{model}/{id}', 'ResourceController@show')->name('resource.show');
 Route::get('resource', 'ResourceController@index');
+Route::delete('resource', 'ResourceController@destroyAll')->name('resource.destroyAll');
 
 Route::get('email/resend', 'VerificationController@resend')->name('verification.resend')->middleware(['auth:api', 'throttle:60,1']);
 Route::get('email/verify/{id}/{hash}', 'VerificationController@verify')->middleware(['throttle:60,1']);

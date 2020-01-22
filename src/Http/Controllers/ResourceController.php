@@ -164,4 +164,18 @@ class ResourceController extends Controller
 
         return response()->json($data);
     }
+
+    /**
+     * Multiple Delete
+     */
+    public function destroyAll($slug)
+    {
+        $model = ucfirst(Str::camel($slug));
+        $instance = "App\ResourceModels\\{$model}";
+        $resource = new $instance;
+        $model = new $resource::$model;
+        $model::whereIn('id', request('ids'))->delete();
+
+        return response([], 204);
+    }
 }
