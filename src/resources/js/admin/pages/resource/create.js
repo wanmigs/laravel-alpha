@@ -2,23 +2,23 @@ import React, { useRef, useState, useEffect } from "react";
 import { Button, Form } from "~/components";
 import { NavLink, useParams } from "react-router-dom";
 import { formSubmit } from "~/helpers/utilities";
-import { formFields } from "./form";
 
-const EditRole = () => {
-  const [data, setData] = useState({});
+const Create = () => {
   const [errors, setErrors] = useState({});
-  const [isFetching, setIsFetching] = useState(false);
+  const [title, setTitle] = useState({});
+  const [isFetching, setFetching] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [formFields, setFormFields] = useState(false);
   const form = useRef(null);
 
-  let { id } = useParams();
+  let { slug } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get(`/api/role/${id}`);
-
-      setData(data);
-      setIsFetching(true);
+      const { data } = await axios.get(`/api/resource/${slug}`);
+      setTitle(data.title);
+      setFormFields(data.form);
+      setFetching(false);
     };
     fetchData();
   }, []);
@@ -30,27 +30,27 @@ const EditRole = () => {
     setLoading(true);
 
     let errors = await formSubmit(
-      `patch`,
-      `/api/role/${id}`,
+      `post`,
+      `/api/resource/${slug}`,
       formData,
-      `Role successfully updated`,
-      `/admin/roles`
+      `${title.singular} successfully added`,
+      `/resource/${slug}`
     );
     setLoading(false);
     setErrors(errors || {});
   };
 
-  if (!isFetching) return null;
+  if (isFetching) return null;
 
   return (
     <div>
       <span
         className={`block border-b font-black mb-4 pb-2 text-blue-900 text-lg w-full`}
       >
-        Edit Role
+        Create {title.singular}
       </span>
-      <form ref={form} data={data} onSubmit={handleSubmit}>
-        <Form errors={errors} formFields={formFields} data={data} />
+      <form ref={form} onSubmit={handleSubmit}>
+        <Form errors={errors} formFields={formFields} />
         <div className={`items-center lg:flex mb-4 lg:mb-5 mt-12`}>
           <span className={`lg:w-48`}></span>
           <Button
@@ -60,7 +60,7 @@ const EditRole = () => {
             {loading && <i className="fa fa-circle-notch fa-spin mr-2" />}{" "}
             Submit
           </Button>
-          <NavLink to="/roles">
+          <NavLink to={`/resource/${slug}`}>
             <Button className={`bg-white border hover:bg-gray-100`}>
               Cancel
             </Button>
@@ -71,4 +71,4 @@ const EditRole = () => {
   );
 };
 
-export default EditRole;
+export default Create;

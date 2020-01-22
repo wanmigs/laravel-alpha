@@ -17,7 +17,7 @@ const Permissions = () => (
     columns={columns}
     endpoint="/api/permission"
     title={title}
-    editLink="/permissions/edit"
+    editLink="/permission/edit"
     options={{
       order: "asc",
       sort: "created_at"

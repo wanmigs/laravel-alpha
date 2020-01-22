@@ -10,6 +10,10 @@ const EditPermission = lazy(() => import("~/pages/permission/edit"));
 
 const RolesPermissions = lazy(() => import("~/pages/roles-permission"));
 
+const Resrource = lazy(() => import("~/pages/resource"));
+const CreateResrource = lazy(() => import("~/pages/resource/create"));
+const EditResrource = lazy(() => import("~/pages/resource/edit"));
+
 const routes = [
   {
     path: "/",
@@ -22,12 +26,12 @@ const routes = [
     component: () => <Roles />
   },
   {
-    path: "/roles/create",
+    path: "/role/create",
     exact: true,
     component: () => <CreateRole />
   },
   {
-    path: "/roles/edit/:id",
+    path: "/role/edit/:id",
     component: () => <EditRole />
   },
   {
@@ -36,12 +40,12 @@ const routes = [
     component: () => <Permission />
   },
   {
-    path: "/permissions/create",
+    path: "/permission/create",
     exact: true,
     component: () => <CreatePermission />
   },
   {
-    path: "/permissions/edit/:id",
+    path: "/permission/edit/:id",
     exact: true,
     component: () => <EditPermission />
   },
@@ -49,6 +53,21 @@ const routes = [
     path: "/roles-permissions",
     exact: true,
     component: () => <RolesPermissions />
+  },
+  {
+    path: "/resource/:slug",
+    exact: true,
+    component: () => <Resrource />
+  },
+  {
+    path: "/resource/:slug/create",
+    exact: true,
+    component: () => <CreateResrource />
+  },
+  {
+    path: "/resource/:slug/edit/:id",
+    exact: true,
+    component: () => <EditResrource />
   }
 ];
 export default routes;

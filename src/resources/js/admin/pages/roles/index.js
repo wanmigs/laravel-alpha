@@ -17,7 +17,7 @@ const Roles = () => (
     columns={columns}
     endpoint="/api/role"
     title={title}
-    editLink="/roles/edit"
+    editLink="/role/edit"
     options={{
       order: "asc",
       sort: "created_at"

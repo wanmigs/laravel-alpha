@@ -18,7 +18,8 @@ const Form = ({
 }) => {
   const Field = key => {
     let type = formFields[key].type || "text";
-    let Field = components[type];
+    let Field = components[type] || components["text"];
+
     return (
       <>
         <Field form={formFields[key]} keyIndex={key} data={data} />

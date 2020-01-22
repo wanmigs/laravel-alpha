@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const roles_permission_links = [
@@ -8,6 +8,16 @@ const roles_permission_links = [
 ];
 
 const Sidebar = () => {
+  const [resource, setResource] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await axios.get("/api/resource");
+      setResource(data);
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="w-64 bg-gray-700 border-r">
       <div className="bg-gray-800 border-b-2 border-gray-800 flex items-center px-8 py-3 text-white">
@@ -22,15 +32,16 @@ const Sidebar = () => {
           <span className="ml-3">Resources</span>
         </h2>
         <div className="ml-4 mt-2 text-sm">
-          <a
-            href="#"
-            className="flex items-center ml-3 py-1 font-bold text-white"
-          >
-            Users
-          </a>
-          <a href="#" className="flex items-center ml-3 py-1">
-            Members
-          </a>
+          {resource.map(resource => (
+            <NavLink
+              key={resource.slug}
+              to={`/resource/${resource.slug}`}
+              activeClassName="font-bold text-white"
+              className="flex items-center ml-3 py-1"
+            >
+              {resource.title}
+            </NavLink>
+          ))}
         </div>
         <h2 className="flex font-semibold items-center mt-3">
           <i className="fa fa-user-shield"></i>

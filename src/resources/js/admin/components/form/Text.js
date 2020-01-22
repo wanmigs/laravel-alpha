@@ -11,9 +11,7 @@ function Text({ form, keyIndex, data = {} }) {
         value={form.value || data[keyIndex] || ``}
         onChange={form.onChange}
         placeholder={
-          typeof form.placeholder !== "undefined"
-            ? form.placeholder
-            : `Enter ${keyIndex}`
+          typeof form.placeholder !== "undefined" ? form.placeholder : ""
         }
       />
     </>

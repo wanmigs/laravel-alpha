@@ -2,22 +2,30 @@ import React, { useRef, useState, useEffect } from "react";
 import { Button, Form } from "~/components";
 import { NavLink, useParams } from "react-router-dom";
 import { formSubmit } from "~/helpers/utilities";
-import { formFields } from "./form";
 
 const EditRole = () => {
   const [data, setData] = useState({});
   const [errors, setErrors] = useState({});
+  const [title, setTitle] = useState({});
   const [isFetching, setIsFetching] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [formFields, setFormFields] = useState(false);
   const form = useRef(null);
 
-  let { id } = useParams();
+  let { slug, id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get(`/api/role/${id}`);
+      const fetchResource = await axios.get(`/api/resource/${slug}`);
+      const fetchData = await axios.get(`/api/resource/${slug}/${id}`);
 
-      setData(data);
+      let [{ data: resource }, { data: model }] = await Promise.all([
+        fetchResource,
+        fetchData
+      ]);
+      setTitle(resource.title);
+      setFormFields(resource.form);
+      setData(model);
       setIsFetching(true);
     };
     fetchData();
@@ -31,10 +39,10 @@ const EditRole = () => {
 
     let errors = await formSubmit(
       `patch`,
-      `/api/role/${id}`,
+      `/api/resource/${slug}/${id}`,
       formData,
-      `Role successfully updated`,
-      `/admin/roles`
+      `${title.singular} successfully updated`,
+      `/resource/${slug}`
     );
     setLoading(false);
     setErrors(errors || {});
@@ -47,7 +55,7 @@ const EditRole = () => {
       <span
         className={`block border-b font-black mb-4 pb-2 text-blue-900 text-lg w-full`}
       >
-        Edit Role
+        Edit {title.singular}
       </span>
       <form ref={form} data={data} onSubmit={handleSubmit}>
         <Form errors={errors} formFields={formFields} data={data} />
@@ -60,7 +68,7 @@ const EditRole = () => {
             {loading && <i className="fa fa-circle-notch fa-spin mr-2" />}{" "}
             Submit
           </Button>
-          <NavLink to="/roles">
+          <NavLink to={`/resource/${slug}`}>
             <Button className={`bg-white border hover:bg-gray-100`}>
               Cancel
             </Button>

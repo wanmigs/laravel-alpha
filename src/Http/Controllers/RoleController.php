@@ -11,6 +11,7 @@ use App\Http\Resources\PaginationCollection;
 class RoleController extends Controller
 {
     use Paginators;
+
     /**
      * Display a listing of the resource.
      *

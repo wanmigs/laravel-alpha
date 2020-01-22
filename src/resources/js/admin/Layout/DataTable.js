@@ -10,7 +10,14 @@ const columns = {
   }
 };
 
-const DataTable = ({ columns, endpoint, title, editLink, options = {} }) => {
+const DataTable = ({
+  columns,
+  endpoint,
+  title,
+  editLink,
+  options = {},
+  baseLink = ""
+}) => {
   const [keyword, setKeyword] = useState("");
   const [tableData, setTableData] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -73,7 +80,7 @@ const DataTable = ({ columns, endpoint, title, editLink, options = {} }) => {
             </span>
           )}
           <span className="text-grey-darker mr-4"></span>
-          <NavLink to={`/${title.plural.toLowerCase()}/create`}>
+          <NavLink to={`${baseLink}/${title.singular.toLowerCase()}/create`}>
             <Button className="bg-blue-500 hover:bg-blue-700 text-white">
               Create {title.singular}
             </Button>
