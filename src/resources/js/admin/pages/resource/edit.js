@@ -42,7 +42,7 @@ const EditRole = () => {
       `/api/resource/${slug}/${id}`,
       formData,
       `${title.singular} successfully updated`,
-      `/resource/${slug}`
+      `/admin/resource/${slug}`
     );
     setLoading(false);
     setErrors(errors || {});

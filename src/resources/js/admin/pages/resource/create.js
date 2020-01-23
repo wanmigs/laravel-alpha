@@ -34,7 +34,7 @@ const Create = () => {
       `/api/resource/${slug}`,
       formData,
       `${title.singular} successfully added`,
-      `/resource/${slug}`
+      `/admin/resource/${slug}`
     );
     setLoading(false);
     setErrors(errors || {});
