@@ -20,7 +20,7 @@ trait AuthenticatesUsers
     {
         $this->validateLogin($request);
 
-        if (! $this->attemptLogin($request)) {
+        if (!$this->attemptLogin($request)) {
             return $this->sendFailedLoginResponse();
         }
 
@@ -132,5 +132,15 @@ trait AuthenticatesUsers
         throw ValidationException::withMessages([
             $this->username() => [trans('auth.failed')],
         ]);
+    }
+
+    /**
+     * Get the login role to be checked controller.
+     *
+     * @return string
+     */
+    public function role()
+    {
+        return 'Admin';
     }
 }

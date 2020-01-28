@@ -9,6 +9,7 @@ const Create = () => {
   const [isFetching, setFetching] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formFields, setFormFields] = useState(false);
+  const [endpoint, setEndpoint] = useState({});
   const form = useRef(null);
 
   let { slug } = useParams();
@@ -18,6 +19,7 @@ const Create = () => {
       const { data } = await axios.get(`/api/resource/${slug}`);
       setTitle(data.title);
       setFormFields(data.form);
+      setEndpoint(data.endpoint);
       setFetching(false);
     };
     fetchData();
@@ -29,9 +31,11 @@ const Create = () => {
     window.loadingStatus = `Saving data...`;
     setLoading(true);
 
+    let api = endpoint.store || `/api/resource/${slug}`;
+
     let errors = await formSubmit(
       `post`,
-      `/api/resource/${slug}`,
+      api,
       formData,
       `${title.singular} successfully added`,
       `/admin/resource/${slug}`

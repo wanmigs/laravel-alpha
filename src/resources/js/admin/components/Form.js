@@ -1,9 +1,11 @@
 import React, { useRef, useState } from "react";
 import Text from "./form/Text";
+import Select from "./form/Select";
 import Label from "./Label";
 
 const components = {
-  text: Text
+  text: Text,
+  select: Select
 };
 
 const Form = ({

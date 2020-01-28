@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use Fligno\Auth\Traits\Paginators;
 use App\Http\Resources\PaginationCollection;
+use Illuminate\Support\Facades\Hash;
 
 class ResourceController extends Controller
 {
@@ -83,6 +84,10 @@ class ResourceController extends Controller
         $columns = DB::connection()->getSchemaBuilder()->getColumnListing($model->getTable());
         $filtered = [];
 
+        $columns = count($resource::$headers ?? [])
+            ? $resource::$headers
+            : $columns;
+
         foreach (array_diff($columns, $model->getHidden()) as $column) {
             $filtered[$column]['label'] = Str::title(str_replace('_', ' ', $column));
         }
@@ -93,7 +98,9 @@ class ResourceController extends Controller
                 "plural" => Str::plural($title),
             ],
             "columns" => $filtered,
-            "form" => $resource::$form ?? []
+            "form" => method_exists($resource, 'form') ? $resource->form() : [],
+            "endpoint" => $resource::$endpoint ?? [],
+            "rowComponent" =>  $resource::$rowComponent ?? ''
         ], 200);
     }
 
@@ -135,9 +142,15 @@ class ResourceController extends Controller
         $resource = new $instance;
         $model = new $resource::$model;
 
-        request()->validate($resource::$validation ?? []);
+        request()->validate($resource->validation() ?? []);
 
-        $data = $model::create(request()->all());
+        $request = request()->all();
+
+        if (array_key_exists('password', $request)) {
+            $request['password'] = Hash::make($request['password']);
+        }
+
+        $data = $model::create($request);
 
         return response($data, 201);
     }
@@ -158,7 +171,11 @@ class ResourceController extends Controller
 
         $data = $model->find($id);
 
-        request()->validate($resource::$updateValidation ?? $resource::$validation ?? []);
+        request()->validate(
+            method_exists($resource, 'updateValidation')
+                ? $resource->updateValidation(request()->all(), $data)
+                : $resource->validation()
+        );
 
         $data = tap($data)->update(request()->all());
 

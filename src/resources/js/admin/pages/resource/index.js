@@ -1,49 +1,40 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "~/Layout/DataTable";
 import { useParams } from "react-router-dom";
-const columns = {
-  name: {
-    label: "Name"
-  }
-};
+import { Loader } from "~/components";
 
-const title = {
-  singular: "Role",
-  plural: "Roles"
-};
-
-const Roles = () => {
-  const [title, setTitle] = useState({});
-  const [columns, setColumns] = useState({});
+const Resource = () => {
   const [isFetching, setFetching] = useState(true);
+  const [data, setData] = useState({});
 
   let { slug } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       const { data } = await axios.get(`/api/resource/${slug}`);
-      setTitle(data.title);
-      setColumns(data.columns);
+      setData(data);
       setFetching(false);
     };
+    setFetching(true);
     fetchData();
-  }, []);
+  }, [slug]);
 
-  if (isFetching) return null;
+  if (isFetching) return <Loader />;
 
   return (
     <DataTable
-      columns={columns}
+      columns={data.columns}
       endpoint={`/api/resource/data/${slug}`}
-      title={title}
+      title={data.title}
       baseLink="/resource"
       editLink={`/resource/${slug}/edit`}
       options={{
         order: "asc",
         sort: "created_at"
       }}
+      row={data.rowComponent}
     />
   );
 };
 
-export default Roles;
+export default React.memo(Resource);

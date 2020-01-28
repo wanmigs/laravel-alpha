@@ -30,8 +30,14 @@ class AuthServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/resources/js' => resource_path('/js'),
             __DIR__ . '/config/frontend.php' => config_path('frontend.php'),
-            __DIR__ . '/tests/Feature' => base_path('tests/Feature')
+            __DIR__ . '/tests/Feature' => base_path('tests/Feature'),
+            __DIR__ . '/resources/img' => public_path('/img'),
+            __DIR__ . '/database/seeds' => base_path('database/seeds'),
         ], 'auth');
+
+        $this->commands([
+            Commands\CreateResource::class
+        ]);
     }
 
     /**

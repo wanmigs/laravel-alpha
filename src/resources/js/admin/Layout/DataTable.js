@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Table, Header, Row } from "~/components";
+import Rows from "~/pages/resource/rows";
 import { NavLink } from "react-router-dom";
 import { swalDelete } from "~/helpers/utilities";
 let debounce = require("lodash.debounce");
@@ -16,13 +17,16 @@ const DataTable = ({
   title,
   editLink,
   options = {},
-  baseLink = ""
+  baseLink = "",
+  row = ""
 }) => {
   const [keyword, setKeyword] = useState("");
   const [tableData, setTableData] = useState([]);
   const [selected, setSelected] = useState([]);
   const [checked, setChecked] = useState(false);
   const [toggleFetch, setToggleFetch] = useState(false);
+
+  let TableRow = Rows.hasOwnProperty(row) ? Rows[row] : Row;
 
   const handleSearch = debounce(keyword => {
     setKeyword(keyword);
@@ -111,7 +115,7 @@ const DataTable = ({
             />
           }
           content={
-            <Row
+            <TableRow
               columns={columns}
               data={tableData}
               onSelect={handleSelected}
@@ -125,4 +129,4 @@ const DataTable = ({
   );
 };
 
-export default DataTable;
+export default React.memo(DataTable);

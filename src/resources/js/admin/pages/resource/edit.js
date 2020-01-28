@@ -10,21 +10,25 @@ const EditRole = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formFields, setFormFields] = useState(false);
+  const [endpoint, setEndpoint] = useState({});
   const form = useRef(null);
 
   let { slug, id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
-      const fetchResource = await axios.get(`/api/resource/${slug}`);
-      const fetchData = await axios.get(`/api/resource/${slug}/${id}`);
+      const { data: resource } = await axios.get(`/api/resource/${slug}`);
 
-      let [{ data: resource }, { data: model }] = await Promise.all([
-        fetchResource,
-        fetchData
-      ]);
       setTitle(resource.title);
       setFormFields(resource.form);
+      setEndpoint(resource.endpoint);
+
+      let api = resource.endpoint.show
+        ? resource.endpoint.show.replace("{id}", id)
+        : `/api/resource/${slug}/${id}`;
+
+      const { data: model } = await axios.get(api);
+
       setData(model);
       setIsFetching(true);
     };
@@ -37,9 +41,13 @@ const EditRole = () => {
     window.loadingStatus = `Saving data...`;
     setLoading(true);
 
+    let api = endpoint.update
+      ? endpoint.update.replace("{id}", id)
+      : `/api/resource/${slug}/${id}`;
+
     let errors = await formSubmit(
       `patch`,
-      `/api/resource/${slug}/${id}`,
+      api,
       formData,
       `${title.singular} successfully updated`,
       `/admin/resource/${slug}`

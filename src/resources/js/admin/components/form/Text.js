@@ -1,7 +1,7 @@
 import React from "react";
 import TextInput from "../TextInput";
 
-function Text({ form, keyIndex, data = {} }) {
+const Text = ({ form, keyIndex, data = {} }) => {
   return (
     <>
       <TextInput
@@ -16,6 +16,6 @@ function Text({ form, keyIndex, data = {} }) {
       />
     </>
   );
-}
+};
 
 export default Text;

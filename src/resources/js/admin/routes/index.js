@@ -18,7 +18,7 @@ const routes = [
   {
     path: "/",
     exact: true,
-    component: () => <h2>Home2</h2>
+    component: () => <h2>Welcome</h2>
   },
   {
     path: "/roles",

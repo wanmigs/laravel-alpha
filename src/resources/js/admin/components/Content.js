@@ -1,13 +1,12 @@
 import React, { Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import routes from "../routes";
-
-const LoadingMessage = () => "I'm loading...";
+import Loader from "./Loader";
 
 const Content = () => {
   return (
-    <div className="flex-1 overflow-auto p-8">
-      <Suspense fallback={<LoadingMessage />}>
+    <div className="relative flex-1 overflow-auto p-8">
+      <Suspense fallback={<Loader />}>
         <Switch>
           {routes.map((route, index) => (
             <Route
