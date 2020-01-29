@@ -33,6 +33,7 @@ class AuthServiceProvider extends ServiceProvider
             __DIR__ . '/tests/Feature' => base_path('tests/Feature'),
             __DIR__ . '/resources/img' => public_path('/img'),
             __DIR__ . '/database/seeds' => base_path('database/seeds'),
+            __DIR__ . '/ResourceModels' => app_path('ResourceModels')
         ], 'auth');
 
         $this->commands([
