@@ -44,7 +44,8 @@ mix
   .react("resources/js/auth/forget-password.js", "public/js") // Add this line of code
   .react("resources/js/auth/reset-password.js", "public/js") // Add this line of code
   .react("resources/js/home.js", "public/js") // Add this line of code
-  .react("resources/js/admin/app.js", "public/js/admin"); // Add this line of code
+  .react("resources/js/admin/app.js", "public/js/admin") // Add this line of code
+  .react("resources/js/admin/pages/login.js", "public/js/admin"); // Add this line of code
 
 mix.webpackConfig({
   resolve: {
@@ -64,10 +65,9 @@ mix.webpackConfig({
 
 ```json
 "@babel/preset-react": "^7.0.0",
-...
 "react": "^16.2.0",
 "react-dom": "^16.2.0",
-"js-cookie": "^2.2.1"
+"js-cookie": "^2.2.1",
 "lodash.debounce": "^4.0.8",
 "pretty-checkbox-react": "^1.1.0",
 "react-router-dom": "^5.1.2"
