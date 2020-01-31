@@ -23,11 +23,12 @@ class RegisterController extends Controller
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'user_type' => 'admin',
+            'password' => bcrypt($request->password)
         ]);
 
         $user->save();
+
+        $user->assignRole('User');
 
         $tokenResult = $user->createToken('Personal Access Token');
 
