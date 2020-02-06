@@ -32,7 +32,7 @@ Route::group(['middleware' => ['auth:api', 'role:Admin']], function () {
     Route::patch('resource/{model}/{id}', 'ResourceController@update')->name('resource.update');
     Route::get('resource/{model}/{id}', 'ResourceController@show')->name('resource.show');
     Route::get('resource', 'ResourceController@index');
-    Route::delete('resource', 'ResourceController@destroyAll')->name('resource.destroyAll');
+    Route::delete('resource/{model}', 'ResourceController@destroyAll')->name('resource.destroyAll');
 
     Route::post('user-activation/{user}', 'UserActivationController@update')->name('user.activation');
     Route::apiResource('user', 'UserController');
