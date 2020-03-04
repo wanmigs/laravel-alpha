@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use Fligno\Auth\Traits\Paginators;
-use App\Http\Resources\PaginationCollection;
+use Fligno\Auth\Resources\PaginationCollection;
 use Illuminate\Support\Facades\Hash;
 
 class ResourceController extends Controller
