@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Fligno\Auth\Traits\Paginators;
-use App\Http\Resources\PaginationCollection;
+use Fligno\Auth\Resources\PaginationCollection;
 
 class PermissionController extends Controller
 {
