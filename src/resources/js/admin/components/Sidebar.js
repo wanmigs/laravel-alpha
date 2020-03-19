@@ -59,6 +59,26 @@ const Sidebar = () => {
             </NavLink>
           ))}
         </div>
+          <h2 className="flex font-semibold items-center mt-3">
+            <i className="fa fa-newspaper"></i>
+            <span className="ml-3">Coming Soon</span>
+          </h2>
+          <div className="ml-4 mt-2 text-sm">
+            <NavLink
+              to={'/newsletters'}
+              activeClassName="font-bold text-white"
+              className="flex items-center ml-3 py-1"
+            >
+              Newsletters
+            </NavLink>
+            <NavLink
+              to={'/newsletter/settings'}
+              activeClassName="font-bold text-white"
+              className="flex items-center ml-3 py-1"
+            >
+              Settings
+            </NavLink>
+          </div>
       </nav>
     </div>
   );

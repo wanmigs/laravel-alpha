@@ -72,7 +72,7 @@ class ResourceController extends Controller
      * Get Resource Model
      *
      * @param [string] $slug
-     * @return Array
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function get($slug)
     {

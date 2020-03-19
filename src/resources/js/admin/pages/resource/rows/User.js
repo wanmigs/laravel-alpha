@@ -54,7 +54,7 @@ const TableContent = ({
                       shape="curve"
                       onChange={() => onSelect(row.id)}
                       color="success-o"
-                    ></Checkbox>
+                    />
                     <span className="font-semibold text-sm">{row[data]}</span>
                   </span>
                 </td>
@@ -75,8 +75,8 @@ const TableContent = ({
                   defaultChecked={row.deactivated_at ? true : false}
                   onClick={evt => handleActivation(evt, row.id)}
                 />
-                <div className="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
-                <div className="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"></div>
+                <div className="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"/>
+                <div className="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"/>
               </div>
             </label>
           </td>

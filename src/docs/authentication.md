@@ -70,7 +70,8 @@ mix.webpackConfig({
 "js-cookie": "^2.2.1",
 "lodash.debounce": "^4.0.8",
 "pretty-checkbox-react": "^1.1.0",
-"react-router-dom": "^5.1.2"
+"react-router-dom": "^5.1.2",
+"lottie-web": "^5.6.6",
 ```
 
 #### 5. Install the dependencies
