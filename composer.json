@@ -1,5 +1,5 @@
 {
-  "name": "wanmigs/laravel-auth",
+  "name": "wanmigs/laravel-alpha",
   "description": "Laravel Auth Preset Package",
   "type": "package",
   "require": {
@@ -12,7 +12,7 @@
     {
       "name": "Juan Miguel Torres",
       "email": "wanmigs@gmail.com",
-      "homepage": "https://github.com/wanmigs/laravel-auth"
+      "homepage": "https://github.com/wanmigs/laravel-alpha"
     }
   ],
   "autoload": {
