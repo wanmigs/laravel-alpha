@@ -1,11 +1,13 @@
 import React, { useRef, useState } from "react";
 import Text from "./form/Text";
+import Textarea from "./form/Textarea";
 import Select from "./form/Select";
 import Label from "./Label";
 
 const components = {
   text: Text,
-  select: Select
+  select: Select,
+  textarea: Textarea,
 };
 
 const Form = ({

@@ -1,32 +1,43 @@
-import React, { useState } from "react";
-import { Button, Table, Header, Row } from "~/components";
-import Rows from "~/pages/resource/rows";
-import { NavLink } from "react-router-dom";
-import { swalDelete } from "~/helpers/utilities";
-let debounce = require("lodash.debounce");
+import React, { useState, useEffect } from 'react';
+import { Button, Table, Header, Row } from '~/components';
+import Rows from '~/pages/resource/rows';
+import { NavLink } from 'react-router-dom';
+import { swalDelete } from '~/helpers/utilities';
+let debounce = require('lodash.debounce');
 
 const columns = {
   name: {
-    label: "Name"
+    label: 'Email'
   }
 };
 
-const DataTable = ({
+const NewsletterTable = ({
   columns,
   endpoint,
   title,
   editLink,
   options = {},
-  baseLink = "",
-  row = ""
+  baseLink = '',
+  row = ''
 }) => {
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState('');
   const [tableData, setTableData] = useState([]);
   const [selected, setSelected] = useState([]);
   const [checked, setChecked] = useState(false);
   const [toggleFetch, setToggleFetch] = useState(false);
+  const [comingSoon, setComingSoon] = useState(false);
+  const [sending, setSending] = useState(false);
 
   let TableRow = Rows.hasOwnProperty(row) ? Rows[row] : Row;
+
+  useEffect(() => {
+    const fetchAppSetting = async () => {
+      const { data } = await axios.get('/api/app-settings/coming-soon');
+      setComingSoon(data.coming_soon);
+    };
+
+    fetchAppSetting();
+  }, []);
 
   const handleSearch = debounce(keyword => {
     setKeyword(keyword);
@@ -61,6 +72,34 @@ const DataTable = ({
     });
   };
 
+  const handleSettingChange = async () => {
+    try {
+      await axios.patch('/api/app-settings/coming-soon');
+      setComingSoon(!comingSoon);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const sendEmail = async () => {
+    setSending(true);
+    try {
+      await axios.post('/api/newsletters/mail/send');
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops!',
+        text: 'Something went wrong while sending the emails.'
+      });
+    }
+    setSending(false);
+  };
+
   return (
     <div>
       <h2 className="text-2xl font-bold mb-3">{title.plural}</h2>
@@ -83,10 +122,33 @@ const DataTable = ({
               {selected.length} item(s) selected
             </span>
           )}
-          <span className="text-grey-darker mr-4"/>
+          <span className="text-grey-darker mr-4" />
+          <div className="flex items-center mx-3">
+            <span className="font-semibold mr-2">Coming Soon</span>
+            <label className="flex items-center cursor-pointer">
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  className="hidden"
+                  checked={comingSoon}
+                  value={comingSoon}
+                  onChange={evt => handleSettingChange()}
+                />
+                <div className="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner" />
+                <div className="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0" />
+              </div>
+            </label>
+          </div>
+          <Button
+            className="bg-green-500 hover:bg-blue-700 text-white"
+            disabled={comingSoon || sending}
+            onClick={sendEmail}
+          >
+            {sending && <i className="fa fa-circle-notch fa-spin mr-2" />} Send Email
+          </Button>
           <NavLink to={`${baseLink}/${title.singular.toLowerCase()}/create`}>
             <Button className="bg-blue-500 hover:bg-blue-700 text-white">
-              Create {title.singular}
+              Add Email
             </Button>
           </NavLink>
           <Button
@@ -94,7 +156,7 @@ const DataTable = ({
             onClick={handleDelete}
             disabled={!selected.length}
           >
-            <i className="fa fa-trash"/>
+            <i className="fa fa-trash" />
           </Button>
         </div>
       </div>
@@ -104,9 +166,9 @@ const DataTable = ({
           toggleFetch={toggleFetch}
           keyword={keyword}
           getData={setTableData}
-          order={options.order || ""}
-          sort={options.sort || ""}
-          queryParams={options.queryParams || ""}
+          order={options.order || ''}
+          sort={options.sort || ''}
+          queryParams={options.queryParams || ''}
           header={
             <Header
               onSelect={handleSelectAll}
@@ -129,4 +191,4 @@ const DataTable = ({
   );
 };
 
-export default React.memo(DataTable);
+export default React.memo(NewsletterTable);

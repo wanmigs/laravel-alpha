@@ -36,7 +36,17 @@ Route::group(['middleware' => ['auth:api', 'role:Admin']], function () {
 
     Route::post('user-activation/{user}', 'UserActivationController@update')->name('user.activation');
     Route::apiResource('user', 'UserController');
+
+    Route::get('newsletters', 'NewsletterController@index');
+    Route::delete('newsletters', 'NewsletterController@destroy');
+    Route::post('newsletters/mail/send', 'ComingSoonEmailController@send');
+
+    Route::get('app-settings/coming-soon', 'ComingSoonController@index');
+    Route::patch('app-settings/coming-soon', 'ComingSoonController@update');
+    Route::get('app-settings/email', 'ComingSoonEmailController@index');
+    Route::patch('app-settings/email', 'ComingSoonEmailController@update');
 });
 
+Route::post('newsletters', 'NewsletterController@store');
 Route::get('email/resend', 'VerificationController@resend')->name('verification.resend')->middleware(['auth:api', 'throttle:60,1']);
 Route::get('email/verify/{id}/{hash}', 'VerificationController@verify')->middleware(['throttle:60,1']);

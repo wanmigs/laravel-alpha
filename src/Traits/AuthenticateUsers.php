@@ -3,6 +3,7 @@
 namespace Fligno\Auth\Traits;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -22,6 +23,10 @@ trait AuthenticatesUsers
 
         if (!$this->attemptLogin($request)) {
             return $this->sendFailedLoginResponse();
+        }
+
+        if (!$this->isVerifiedUser()) {
+            $this->sendUnverifiedResponse();
         }
 
         return $this->sendLoginResponse($request);
@@ -70,6 +75,22 @@ trait AuthenticatesUsers
             $this->credentials($request),
             $request->filled('remember')
         );
+    }
+
+    /**
+     * Check if authenticated user is verified.
+     *
+     * @return bool
+     */
+    protected function isVerifiedUser()
+    {
+        $user = auth()->guard('web')->user();
+
+        if (!$user instanceof MustVerifyEmail) {
+            return true;
+        }
+
+        return $user->hasVerifiedEmail();
     }
 
     /**
@@ -131,6 +152,19 @@ trait AuthenticatesUsers
     {
         throw ValidationException::withMessages([
             $this->username() => [trans('auth.failed')],
+        ]);
+    }
+
+    /**
+     * Get the unverified user response instance.
+     *
+     * @return void
+     * @throws ValidationException
+     */
+    protected function sendUnverifiedResponse()
+    {
+        throw ValidationException::withMessages([
+            $this->username() => ['Your email has not been verified yet.'],
         ]);
     }
 

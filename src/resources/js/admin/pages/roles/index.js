@@ -15,9 +15,9 @@ const title = {
 const Roles = () => (
   <DataTable
     columns={columns}
-    endpoint="/api/role"
+    endpoint="/api/newsletter"
     title={title}
-    editLink="/role/edit"
+    editLink=""
     options={{
       order: "asc",
       sort: "created_at"

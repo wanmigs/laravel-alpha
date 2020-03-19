@@ -14,6 +14,9 @@ const Resrource = lazy(() => import("~/pages/resource"));
 const CreateResrource = lazy(() => import("~/pages/resource/create"));
 const EditResrource = lazy(() => import("~/pages/resource/edit"));
 
+const Newsletters = lazy(() => import("~/pages/coming-soon"));
+const Settings = lazy(() => import("~/pages/coming-soon/settings"));
+
 const routes = [
   {
     path: "/",
@@ -53,6 +56,16 @@ const routes = [
     path: "/roles-permissions",
     exact: true,
     component: () => <RolesPermissions />
+  },
+  {
+    path: "/newsletters",
+    exact: true,
+    component: () => <Newsletters />
+  },
+  {
+    path: "/newsletter/settings",
+    exact: true,
+    component: () => <Settings />
   },
   {
     path: "/resource/:slug",
